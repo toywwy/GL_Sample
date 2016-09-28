@@ -13,5 +13,37 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Source Files\day1">
+      <UniqueIdentifier>{a0b72dcd-c70a-46c8-bce1-8193e73e187b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\day2">
+      <UniqueIdentifier>{cd1c6d7e-6d92-4b4a-b560-a5e11f2bf11b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\day3">
+      <UniqueIdentifier>{d41b6787-7bff-40ca-99b0-d70b0ad25686}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="ex2.cpp">
+      <Filter>Source Files\day1</Filter>
+    </ClCompile>
+    <ClCompile Include="ex1.cpp">
+      <Filter>Source Files\day1</Filter>
+    </ClCompile>
+    <ClCompile Include="ex3_buffer.cpp">
+      <Filter>Source Files\day2</Filter>
+    </ClCompile>
+    <ClCompile Include="ex4_btn_pq.cpp">
+      <Filter>Source Files\day2</Filter>
+    </ClCompile>
+    <ClCompile Include="ex5_menu.cpp">
+      <Filter>Source Files\day2</Filter>
+    </ClCompile>
+    <ClCompile Include="ex1_mouseBtn.cpp">
+      <Filter>Source Files\day2</Filter>
+    </ClCompile>
+    <ClCompile Include="ex2_rotation.cpp">
+      <Filter>Source Files\day2</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
