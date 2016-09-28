@@ -1,39 +1,43 @@
-//¸¶¿ì½º  ¹öÆ°Å¬¸¯
-//
-//¹Ù¿ì½º ¸ğ¼Ç
-
-#include<WIndows.h>
+ï»¿#include<WIndows.h>
 #include<gl/GL.h>
 #include<gl/GLU.h>
 #include<gl/glut.h>
+
+static bool mouseLeftDown; //ë§ˆìš°ìŠ¤ ë²„íŠ¼ì— ëŒ€í•œ Flag ê°’ì´ë‹¤.
+static float point[2][2]; // ì ì— ëŒ€í•´ì„œ ì´í•´í•  í•„ìš”ëŠ”ìˆë‹¤. 2 x 2ë‹¤. 4ê°œë¥¼ ì €ì¥ í• ìˆ˜ìˆê² ì§€...
+
+
 /*
-GLUT ÀÌÀü¿¡´Â MFC¿¡¼­ Çß¾ú¾î¾ßÇß´Âµ¥ ÀÌ¤Ä¤¸´Â glut¸¦ ÀÌ¿ëÇØ¼­ À©µµ¿ì¸¦ ¶ç¿ï °ÍÀÌ´Ù.
+í™”ë©´ ì¢Œí‘œê³„ì˜ ì°¨ì´ 
+	ìœˆë„ìš° : ì¢Œ ìƒë‹¨ì´ ì›ì (0,0) 
+	OpenGL : ì¢Œ í•˜ë‹¨ì´ ì›ì (0,0)
+	GLUTëŠ” ìœˆë„ìš° í™”ë©´ ì¢Œí‘œê³„ë¥¼ ì‚¬ìš©
 */
-static bool mouseLeftDown;
-static float point[2][2];
+
 void RenderScene(void)
 {
 	glClear(GL_COLOR_BUFFER_BIT);
 	glEnable(GL_LINE_STIPPLE);
 
 	if (mouseLeftDown)
-		glLineStipple(3, 0xcccc);
+		glLineStipple(3, 0xcccc); //ì ì„ ìœ¼ë¡œ
 	else
-		glDisable(GL_LINE_STIPPLE);
+		glDisable(GL_LINE_STIPPLE); // ì ì„ ìœ¼ë¡œ ì“°ëŠ”ê±° ì·¨ì†Œí•œë‹¤.
+
 	glColor3f(0, 0, 1);
 	glLineWidth(2);
+
 	glBegin(GL_LINES);
-	glVertex2fv(point[0]);
-	glVertex2fv(point[1]);
+	{	
+		glVertex2fv(point[0]); //point ê°’ì€ ë³€í™”í•˜ëŠ” ê°’ì´ë‹¤. ê·¸ë¦¬ê³  ìƒˆë¡œ ê·¸ë ¤ì£¼ëŠ” ê²ƒì´ì§€
+		glVertex2fv(point[1]);
+	}
 	glEnd();
+
 	glFlush();
 }
-void SetupRC(void)
-{
-	glClearColor(1.0f, 1.0f, 1.0f, 1.0f);//µğ½ºÇÃ·¹ÀÌ ÇÔ¼ö°¡ ÁÖ±âÀûÀ¸·Î °è¼Ó±×¸®´Â°Å´Ù ½Ì±Û¹öÆÛ¿¡´Ù°¡,
-										 //±×·¡¼­ °Ô½î ±×¸®°í Áö¿ö¾ßÇÏ´Âµ¥ ³×¸ğ°¡ ¿òÁ÷ÀÌ´Âµ¥ µÚ¸éÀ» ÃÊ±âÈ­ ¾ÈÇÏ¸é ÀÜ»óÀÌ ³²±â‹š¹®¿¡ ÃÊ±âÈ­ÇØÁà¾ßÇÑ´Ù.
-										 //»öÀº ..ÆíÇÑ°Å ÇØµµµÈ´Ù.
-}
+void SetupRC(void){glClearColor(1.0f, 1.0f, 1.0f, 1.0f);}
+
 void ChangeSize(int w, int h)
 {
 	GLfloat aspectRatio;
@@ -52,17 +56,19 @@ void ChangeSize(int w, int h)
 	glLoadIdentity();
 }
 
-
+//TODO callback mouse Click
 void mouseButton(int button, int state, int x, int y)
 {
-	if (button == GLUT_LEFT_BUTTON)
+	if (button == GLUT_LEFT_BUTTON) //ë§ˆìš°ìŠ¤ ì™¼ìª½ë²„íŠ¼ ëˆŒë €ì„ë•Œ
 	{
 		if (state == GLUT_DOWN)
 		{
 			if (!mouseLeftDown)
 			{
 				double viewport[4];
+
 				glGetDoublev(GL_VIEWPORT, viewport);
+
 				point[0][0] = x / (float)viewport[2] * 500;
 				point[0][1] = (viewport[3] - y) / (float)viewport[3] * 500;
 				point[1][0] = point[0][0];
@@ -77,19 +83,22 @@ void mouseButton(int button, int state, int x, int y)
 				mouseLeftDown = false;
 		}
 	}
-	else if (button = GLUT_RIGHT_BUTTON)
+	else if (button = GLUT_RIGHT_BUTTON) //ì˜¤ë¥¸ìª½ ë²„íŠ¼ ëˆŒë €ì„ë•Œ
 	{
 		if (state = GLUT_DOWN)
 		{
+
 		}
 		else if (state == GLUT_UP)
 		{
+
 		}
 	}
-	glutPostRedisplay(); //È­¸é °»½ÅÀÌ ÇÊ¿äÇÒ ¶§ ÀÌÇÔ¼ö¸¦ ºÎ¸£¸é display Äİ¹é ÇÔ¼ö¸¦ ´Ù½Ã ÇÑ ¹ø ½ÇÇà
+	glutPostRedisplay(); //í™”ë©´ ê°±ì‹ ì´ í•„ìš”í•  ë•Œ ì´ í•¨ìˆ˜ë¥¼ ë¶€ë¥´ë©´ display ì½œë°± í•¨ìˆ˜ë¥¼ ë‹¤ì‹œ í•œ ë²ˆ ì‹¤í–‰
 }
 
-void mouseMotion(int x, int y)
+//TODO Mouse motion Callback
+void mouseMotion(int x, int y) //ë§ˆìš°ìŠ¤ ëª¨ì…˜ ì½œë°±ì„ í•´ë†“ìœ¼ë©´ ê°’ì´ ë¦¬í„´ë¨
 {
 	if (mouseLeftDown)
 	{
@@ -103,7 +112,7 @@ void mouseMotion(int x, int y)
 
 void init(void)
 {
-	mouseLeftDown = false;
+	mouseLeftDown = false; // ì´ˆê¸°ì—ëŠ” ì•ˆëˆŒë¦° ê°’ìœ¼ë¡œ
 	point[0][0] = 0;
 	point[0][1] = 0;
 	point[1][0] = 0;
@@ -114,12 +123,13 @@ void main(int argc, char * argv[])
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
 	glutInitWindowSize(600, 600);
+
 	glutCreateWindow("Simple");
 	glutDisplayFunc(RenderScene);
-	glutReshapeFunc(ChangeSize);//ºñÀ²À» ¹Ù²ãÁà¾ß È­¸éÀ» ´Ã·ÈÀ»‹šµµ ¹«†´°¡ ¾ø´Ù.
-	glutMouseFunc(mouseButton); //¹öÆ°À» ´­·¶À»‹š
-	glutMotionFunc(mouseMotion); //¿òÁ÷ ÀÏ‹š ¹ß»ıÇÏ´Â °Í°°´Ù.
+	glutReshapeFunc(ChangeSize);//ë¹„ìœ¨ì„ ë°”ê¿”ì¤˜ì•¼ í™”ë©´ì„ ëŠ˜ë ¸ì„ë–„ë„ ë¬´ë„ºê°€ ì—†ë‹¤.
+	glutMouseFunc(mouseButton); //ë²„íŠ¼ì„ ëˆŒë €ì„ë–„
+	glutMotionFunc(mouseMotion); //ë§ˆìš°ìŠ¤ê°€ ì›€ì§ì¼ë•Œ ì½œë°± ë°œìƒ
+
 	SetupRC();
 	glutMainLoop();
-	//±âº»ÀûÀÎ Æ²°°Àº°Å ¿Ü¿ìÇÊ¿ä¾ø°í ½ÃÇè¿¡¾È³ª¿Â´Ù ½ÃÇèº¼‹š ÁØ´Ù.
 }
