@@ -14,21 +14,21 @@
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
     <Filter Include="Source Files\hw1">
-      <UniqueIdentifier>{c96286bc-6ccd-43ad-b5a5-007ac374beb0}</UniqueIdentifier>
+      <UniqueIdentifier>{c89c4ff2-9da2-4a47-89d8-86419d72a27a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="ex2.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="..\GLSample\ex1.cpp">
+      <Filter>Source Files\hw1</Filter>
     </ClCompile>
-    <ClCompile Include="ex1.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="..\GLSample\ex2.cpp">
+      <Filter>Source Files\hw1</Filter>
     </ClCompile>
     <ClCompile Include="..\HW1\pj1.cpp">
-      <Filter>Source Files\hw1</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\HW1\pj2.cpp">
-      <Filter>Source Files\hw1</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
