@@ -15,19 +15,19 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\GLSample\ex1_mouseBtn.cpp">
+    <ClCompile Include="ex1MouseClick.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\GLSample\ex2_rotation.cpp">
+    <ClCompile Include="ex2Rotation.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\GLSample\ex3_buffer.cpp">
+    <ClCompile Include="ex3Buffer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\GLSample\ex4_btn_pq.cpp">
+    <ClCompile Include="ex4Keyboard.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\GLSample\ex5_menu.cpp">
+    <ClCompile Include="ex5Menu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

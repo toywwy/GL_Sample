@@ -35,7 +35,7 @@ void RenderScene(void)
 	//A transformation of the world coordinate
 	gluLookAt(0.5, 0.5, 0.5, 0, 0, 0, 0, 1, 0);
 	/*
-	To Obtain a Desired View, Position and Orient the Camera within the World Coordinate System 
+	To Obtain a Desired View, Position and Orient the Camera within the World Coordinate System
 	Eye point, at point, up vector
 	*/
 
@@ -45,17 +45,17 @@ void RenderScene(void)
 	else if (rotationAxisMode == 1)
 		glRotatef(theta, 0, 1, 0);//이게 먼저 와야하는이유는 뭘까????
 	else if (rotationAxisMode == 2)
-		glRotatef(theta, 0, 0, 1 );//이게 먼저 와야하는이유는 뭘까????
+		glRotatef(theta, 0, 0, 1);//이게 먼저 와야하는이유는 뭘까????
 	else
 		glRotatef(theta, 0, 1, 0);//이게 먼저 와야하는이유는 뭘까????
 
 	glBegin(GL_QUADS);
-		quad(0, 3, 2, 1);
-		quad(2, 3, 7, 6);
-		quad(3, 0, 4, 7);
-		quad(1, 2, 6, 5);
-		quad(4, 5, 6, 7);
-		quad(5, 4, 0, 1);
+	quad(0, 3, 2, 1);
+	quad(2, 3, 7, 6);
+	quad(3, 0, 4, 7);
+	quad(1, 2, 6, 5);
+	quad(4, 5, 6, 7);
+	quad(5, 4, 0, 1);
 	glEnd();
 
 	glutSwapBuffers();//더블 버퍼 사용하기 떄문이다.
@@ -65,9 +65,9 @@ void mouseButton(int button, int state, int x, int y)
 {
 	if (button == GLUT_LEFT_BUTTON)
 		if (state == GLUT_DOWN)
-				(mouseLeftDown == true) ? mouseLeftDown = false : mouseLeftDown = true;
-	else if (button = GLUT_RIGHT_BUTTON)
-		if (state == GLUT_DOWN)
+			(mouseLeftDown == true) ? mouseLeftDown = false : mouseLeftDown = true;
+		else if (button = GLUT_RIGHT_BUTTON)
+			if (state == GLUT_DOWN)
 				(mouseLeftDown == true) ? mouseLeftDown = false : mouseLeftDown = true;
 
 	glutPostRedisplay(); //화면 갱신이 필요할 때 이함수를 부르면 display 콜백 함수를 다시 한 번 실행
@@ -120,7 +120,7 @@ void ChangeSize(int w, int h)
 
 void timer(int value)
 {
-	(mouseLeftDown) ? theta-=2 : theta += 2;
+	(mouseLeftDown) ? theta -= 2 : theta += 2;
 
 	if (theta >= 360.0)
 		theta -= 360.0;
