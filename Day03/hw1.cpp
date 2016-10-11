@@ -49,6 +49,7 @@ void RenderScene(void)
 	else
 		glRotatef(theta, 0, 1, 0);//이게 먼저 와야하는이유는 뭘까????
 
+
 	glBegin(GL_QUADS);
 	quad(0, 3, 2, 1);
 	quad(2, 3, 7, 6);
