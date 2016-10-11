@@ -27,7 +27,7 @@ void RenderScene(void)
 	glutWireCube(1);
 
 
-	glutSwapBuffers();// 버퍼 사용한다는 이야기지
+	glutSwapBuffers();// 더블 버퍼 사용한다는 이야기지
 
 }
 

@@ -1,8 +1,8 @@
 #include<iostream>
 #include<WIndows.h>
-#include<gl/gL.h>
-#include<gl/gLU.h>
-#include<gl/glut.h>
+//#include<gl/gL.h>
+//#include<gl/gLU.h>
+#include<gl/glut.h>//잉 이것만 있으면 되는건가?
 
 #include <math.h>
 
@@ -209,11 +209,10 @@ void main(int argc, char * argv[])
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
 	glutInitWindowSize(600, 600);
 	glutCreateWindow("Simple");
-	glutDisplayFunc(RenderScene);//비율을 바꿔줘야 화면을 늘렸을떄도 문제가 없다.
-	glutReshapeFunc(ChangeSize);//꼭 추가해줘야한다.
-	
-	glutSpecialFunc(specialKeyboard);
-	glutKeyboardFunc(keyboard);
+	glutDisplayFunc(RenderScene);//렌더링되는 부분
+	glutReshapeFunc(ChangeSize);//SIZE가 바뀔마다 호출이 된다.
+	glutSpecialFunc(specialKeyboard);//스페셜 키보드 이벤트를 콜백
+	glutKeyboardFunc(keyboard);//키보드 이벤트 콜백
 
 	init();
 	SetupRC();
