@@ -4,8 +4,6 @@
 //근데 매핑 시키는거라고 했는데 왜 그 이벤트 하고는 매핑이안된거지 ? ?
 //
 //
-//
-//
 //glutAddMenuEntry("1", 1);
 //glutAddMenuEntry("2", 2);
 //이런식으로 추가를해서한다.
@@ -22,6 +20,7 @@ GLUT 이전에는 MFC에서 했었어야했는데 이ㅔㅈ는 glut를 이용해서 윈도우를 띄울 것이
 static bool mouseLeftDown;
 static float point[2][2];
 static float theta;
+
 void RenderScene(void)
 {
 	glClear(GL_COLOR_BUFFER_BIT);
@@ -132,11 +131,12 @@ void keyboard(unsigned char key, int x, int y)
 	case VK_ESCAPE://이건 Win32에서 있는 키다.
 		exit(0);
 		break;
-	case '1':
+	case 1:
 		exit(0);
 		break;
-	case '2':
+	case 2:
 		exit(0);
+
 		break;
 	default:
 		break;
@@ -157,6 +157,16 @@ void menu(int item)
 {
 	keyboard((unsigned char)item, 0, 0);
 }
+
+void menuInit()
+{
+	glutCreateMenu(menu); //메뉴마다 옵션을 넣어줘야한다. 그리고 키보드에 매핑도 가능한것이지..
+	glutAddMenuEntry("EXIT", 1);
+	glutAddMenuEntry("LEE", 2);
+	//오른쪽 버튼 누르면 메뉴가 뜬다.
+	glutAttachMenu(GLUT_RIGHT_BUTTON);
+}
+
 void main(int argc, char * argv[])
 {
 	glutInit(&argc, argv);
@@ -169,11 +179,8 @@ void main(int argc, char * argv[])
 	glutMotionFunc(mouseMotion); //움직 일떄 발생하는 것같다.
 	glutTimerFunc(1000 / 30, timer, 1);
 	glutKeyboardFunc(keyboard);
-	//오른쪽 키 누르면 메뉴가 뜬다.
-	glutCreateMenu(menu); //메뉴마다 옵션을 넣어줘야한다. 그리고 키보드에 매핑도 가능한것이지..
-	glutAddMenuEntry("HELELO", 1);
-	glutAddMenuEntry("LEE", 2);
-	glutAttachMenu(GLUT_RIGHT_BUTTON);
+	
+	menuInit();
 	init();
 	SetupRC();
 	glutMainLoop();

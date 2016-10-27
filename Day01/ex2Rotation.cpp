@@ -2,8 +2,13 @@
 #include<gl/GL.h>
 #include<gl/GLU.h>
 #include<gl/glut.h>
+
+#include<iostream>
+
+using namespace std;
+
 /*
-GLUT 이전에는 MFC에서 했었어야했는데 이제는 glut를 이용해서 윈도우를 띄울 것이다.
+	GLUT 이전에는 MFC에서 했었어야했는데 이제는 glut를 이용해서 윈도우를 띄울 것이다.
 */
 #include <math.h>
 static bool mouseLeftDown;
@@ -13,9 +18,11 @@ void RenderScene(void)
 {
 	glClear(GL_COLOR_BUFFER_BIT);
 	//이런 수학 부분을 이해해야할 것 같은데..
-	float cos_th = cos(theta * 3.14159 / 180.0);
-	float sin_th = sin(theta * 3.14159 / 180.0);
+	float cos_th = cos(theta * 3.14159/180);
+	float sin_th = sin(theta * 3.14159/180);
 
+	
+	cout << cos_th << " , "<<sin_th <<" , "<<theta<< endl;
 	glColor3f(1, 0, 0);//Flat Color 적용
 	glBegin(GL_POLYGON);
 	{

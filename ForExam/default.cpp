@@ -1,21 +1,23 @@
 #include<iostream>
-#include<WIndows.h>
-#include<gl/gL.h>
-#include<gl/gLU.h>
-#include<gl/glut.h>
+#include<WIndows.h> //이건 GUI 때문에 필요한건데.
+#include<gl/GL.h>
+#include<gl/GLU.h>
+#include<gl/glut.h> //이건 유틸리티 툴킷인데, 사용자의 입력이나 화면 윈도우를 제어하기 위해서다.
+#include <math.h> //삼각함수 쓰려고
 
-#include <math.h>
+/*
+* gl.h (OpenGL Core Library) - 렌더링 기능을 제공하는 라이브러리
+* glu.h (OpenGL Utility Library) - GL 라이브러러의 도우미 역할
+* glut.h (OpenGL Utility Toolkit) - 사용자 입력을 받아들이거나 화면 윈도우를 제어하기 위한 라이브러리
+*/
 
 using namespace std;
-
-GLUquadricObj *quadricObj;//곡면 그릴떄 사용하는 것으로 유추됨 원통 실린더 그릴때 사용
-float r[20];
-float colors[20][3];
 
 void timer(int value)
 {
 	glutPostRedisplay();//화면 갱신이 필요할 때 이함수를 부르면 display 콜백 함수를 다시 한 번 실행
 	glutTimerFunc(1000 / 30, timer, 1);//다이머 시간 마다 갱신,  해준다 //30 frame 나온다.
+									   //타이머가 작동하는데 다시 타이머를 동작시킴으로써 계쏙 작동하게 되는거지.
 }
 
 void RenderScene(void)
@@ -29,50 +31,9 @@ void RenderScene(void)
 	glMatrixMode(GL_MODELVIEW);//MODELVEIW는 그리는거고 projection은 투영하는거다.
 	glLoadIdentity();
 
-	gluLookAt(2, 2, 2, 0, 0, 0, 0, 1.0, 0);// 정면에서보려고
-
-	glEnable(GL_LIGHTING);
-	glEnable(GL_LIGHT0);
-
-	glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);
-	glEnable(GL_COLOR_MATERIAL);
-
-	GLfloat mat_specular[4] = { 1,1,1,1 };
-	GLfloat mat_shininess = 25.0;
-	glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
-	glMaterialf(GL_FRONT, GL_SHININESS, mat_shininess);
-
-	float dy[] = { -2.0,-1.0,0,1.0,2.0 };
-	float d[] = { -2.0,-1.0,0,1.0 };
-	int idx = 0;
-
-	for (int i = 0; i < 5; i++)
-	{
-		for (int j = 0; j < 4; j++)
-		{
-			glPushMatrix();
-			{
-				glTranslatef(d[j], dy[i], 0);
-				//이동한 위치에서 회전을 해야한다.
-				if (i == 0)
-					glRotatef(r[idx], 1, 0, 0);
-				else if (i == 1)
-					glRotatef(r[idx], 0, 1, 0);
-				else if (i == 2)
-					glRotatef(r[idx], 0, 0, 1);
-				else if (i == 3)
-					glRotatef(r[idx], 0, 1, 0);
-				else
-					glRotatef(r[idx], 0, 0, 1);
-
-				glColor3fv(colors[idx]);
-
-				glutSolidTeapot(0.3);//마지막에 해야한다.
-				r[idx++] += 2.0;
-			}
-			glPopMatrix();
-		}
-	}
+	gluLookAt(0, 0, 2.0, 0, 0, 0, 0, 1.0, 0); //보는 시점이다.
+											  //처음이 눈, at은 어느부분을 볼것인가 이기때문에 거의 안건들여..
+											  //up은 축을 말하는거다...어느축으로 볼것인가.
 
 	glutSwapBuffers(); //GLUT_DOUBLE 버퍼를 더블로해서 스왑해서사용할 것이다.
 }
@@ -84,19 +45,6 @@ void SetupRC(void) {
 
 void init(void)
 {
-
-	for (int i = 0; i < 20; i++)
-	{
-		for (int j = 0; j < 3; j++)
-		{
-			float a = rand() % 10;
-			colors[i][j] = a / 10.0;
-		}
-	}
-
-
-	quadricObj = gluNewQuadric();
-	gluQuadricDrawStyle(quadricObj, GLU_LINE);
 	glutTimerFunc(1000 / 30, timer, 1);
 }
 
@@ -105,10 +53,14 @@ void ChangeSize(int w, int h)
 	if (h == 0)// 0으로 나누어지는거 막기위해서
 		h = 1;
 
-	glViewport(0, 0, w, h);
+	glViewport(0, 0, w, h); // 실제로 보여지는 부분을 뷰포트라 명시한다.
 
-	glMatrixMode(GL_PROJECTION); //이부분이 PROJECTION인 이유는
+	glMatrixMode(GL_PROJECTION); //이부분이 PROJECTION인 이유는 3D를 2D로 투영시켜야한다.
+								 //glOrtho를 통해서
 	glLoadIdentity();//좌표계 초기화
+					 //근데 이게 보면 아는데 ,이러고 나서 좌표계를 초기화해줘야 하고 이런게 기억안날텐데...
+					 //사실근데 안써도 상관없는거구나 ....좌표계를 조작하지 않은이상????
+					 //여기에서 초기화 해주는 이유는 뭘까?? 어떤 좌표계를 초기화 시켜준다는 말이지??
 
 	if (w <= h)
 		glOrtho(-2.0, 2.0, -2.0*(float)h / (float)w,
@@ -123,13 +75,15 @@ void main(int argc, char * argv[])
 {
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
-	glutInitWindowSize(800, 600);
+	glutInitWindowSize(600, 600);
 	glutCreateWindow("Simple");
 	glutDisplayFunc(RenderScene);//렌더링되는 부분
 	glutReshapeFunc(ChangeSize);//SIZE가 바뀔마다 호출이 된다.
 								//	glutSpecialFunc(specialKeyboard);//스페셜 키보드 이벤트를 콜백
 								//	glutKeyboardFunc(keyboard);//키보드 이벤트 콜백
+
 	init();
 	SetupRC();
 	glutMainLoop();
+	//기본적인 틀같은거 외우필요없고 시험에안나온다 시험볼떄 준다.
 }

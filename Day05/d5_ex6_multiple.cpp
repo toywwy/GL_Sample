@@ -158,10 +158,12 @@ void RenderScene(void)
 	glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);
 	glEnable(GL_COLOR_MATERIAL);
 
+
+
 	GLfloat mat_specular[4] = { 1,1,1,1 };
 	GLfloat mat_shininess = 25.0;
-	glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
-	glMaterialf(GL_FRONT, GL_SHININESS, mat_shininess);
+	glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);//반사를위함 반짝이는거 광택
+	glMaterialf(GL_FRONT, GL_SHININESS, mat_shininess);//얘는 그냥 빛인데?
 
 	/*glPushMatrix();
 	{
