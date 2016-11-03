@@ -1,5 +1,5 @@
 #include<iostream>
-#include<WIndows.h>
+#include<Windows.h>
 #include<gl/gL.h>
 #include<gl/gLU.h>
 #include<gl/glut.h>

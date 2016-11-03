@@ -13,33 +13,16 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Source Files\default">
-      <UniqueIdentifier>{a5907c9f-9098-4a57-a044-71659b849c69}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="ex1.cpp">
+    <ClCompile Include="d7_ex1.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="연습1.cpp">
+    <ClCompile Include="d7_ex2.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="연습2.cpp">
+    <ClCompile Include="d7_ex3.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="default.cpp">
-      <Filter>Source Files\default</Filter>
-    </ClCompile>
-    <ClCompile Include="jBunny.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="FileReader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="FileReader.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
 </Project>

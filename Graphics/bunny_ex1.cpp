@@ -5,6 +5,8 @@
 #include<gl/glut.h> //이건 유틸리티 툴킷인데, 사용자의 입력이나 화면 윈도우를 제어하기 위해서다.
 #include <math.h> //삼각함수 쓰려고
 
+#define _CRT_SECURE_NO_WARNINGS
+#pragma warning(disable:4996)
 /*
 * gl.h (OpenGL Core Library) - 렌더링 기능을 제공하는 라이브러리
 * glu.h (OpenGL Utility Library) - GL 라이브러러의 도우미 역할
@@ -13,12 +15,56 @@
 
 using namespace std;
 
+float positions[453][3];
+int indices[948][3];
+
 
 void timer(int value)
 {
 	glutPostRedisplay();//화면 갱신이 필요할 때 이함수를 부르면 display 콜백 함수를 다시 한 번 실행
 	glutTimerFunc(1000 / 30, timer, 1);//다이머 시간 마다 갱신,  해준다 //30 frame 나온다.
 									   //타이머가 작동하는데 다시 타이머를 동작시킴으로써 계쏙 작동하게 되는거지.
+}
+
+void drawPoints()
+{
+	glColor3f(0, 0, 0);
+	//glutSolidTeapot(5);
+	glPointSize(2);
+
+	for (int i = 0; i < 948; i++)
+	{
+		glBegin(GL_POINTS);
+		{
+			glVertex3fv(positions[indices[i][0]]); //Normalize는 각각 점에 대해서 설정이 되는건가??
+			glVertex3fv(positions[indices[i][1]]); //Normalize는 각각 점에 대해서 설정이 되는건가??
+			glVertex3fv(positions[indices[i][2]]); //Normalize는 각각 점에 대해서 설정이 되는건가??
+		}
+		glEnd();
+	}
+}
+
+void Normalize(float *p)
+{
+	double d = p[0] * p[0] + p[1] * p[1] + p[2] * p[2];
+
+	if (d > 0)
+	{
+		float len = (float)(1.0 / sqrt(d));
+		p[0] *= len;
+		p[1] *= len;
+		p[2] *= len;
+	}
+}
+
+
+void CrossProduct(float *a, float *b, float *c, float *r)
+{
+	r[0] = (b[1] - a[1]) * (c[2] - a[2]) - (b[2] - a[2]) * (c[1] - a[1]);
+	r[1] = (b[2] - a[2]) * (c[0] - a[0]) - (b[0] - a[0]) * (c[2] - a[2]);
+	r[2] = (b[0] - a[0]) * (c[1] - a[1]) - (b[1] - a[1]) * (c[0] - a[0]);
+
+	Normalize(r);//유닛 벡터로 만드는건가 법선 벡터를
 }
 
 void RenderScene(void)
@@ -32,9 +78,17 @@ void RenderScene(void)
 	glMatrixMode(GL_MODELVIEW);//MODELVEIW는 그리는거고 projection은 투영하는거다.
 	glLoadIdentity();
 
-	gluLookAt(0, 0, 2.0, 0, 0, 0, 0, 1.0, 0); //보는 시점이다.
+	gluLookAt(0, 0.2, 0.2, 0, 0, 0, 0, 1, 0); //보는 시점이다.
 											  //처음이 눈, at은 어느부분을 볼것인가 이기때문에 거의 안건들여..
 											  //up은 축을 말하는거다...어느축으로 볼것인가.
+
+											  //glEnable(GL_LIGHTING);
+											  //glEnable(GL_LIGHT0);
+											  //glEnable(GL_COLOR_MATERIAL);
+
+	glColor3f(0, 0, 0);
+
+	drawPoints();
 
 	glutSwapBuffers(); //GLUT_DOUBLE 버퍼를 더블로해서 스왑해서사용할 것이다.
 }
@@ -42,6 +96,10 @@ void RenderScene(void)
 void SetupRC(void) {
 	glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 	glEnable(GL_DEPTH_TEST);
+
+	//BACK을 CULL 하겠다 안그릴거야.
+	glEnable(GL_CULL_FACE);
+	glCullFace(GL_BACK);
 }
 
 void init(void)
@@ -64,15 +122,36 @@ void ChangeSize(int w, int h)
 					 //여기에서 초기화 해주는 이유는 뭘까?? 어떤 좌표계를 초기화 시켜준다는 말이지??
 
 	if (w <= h)
-		glOrtho(-2.0, 2.0, -2.0*(float)h / (float)w,
-			2.0*(float)h / (float)w, -10.0, 10.0);
+		glOrtho(-1.0, 1.0, -1.0*(float)h / (float)w,
+			1.0*(float)h / (float)w, -1.0, 1.0);
 	else
-		glOrtho(-2.0*(float)w / (float)h, 2.0*(float)w / (float)h,
-			-2.0, 2.0, -10.0, 10.0);
+		glOrtho(-1.0*(float)w / (float)h, 1.0*(float)w / (float)h,
+			-1.1, 1.0, -1.0, 1.0);
+
+	//	glFrustum(-5,5, -5, 5, 5, 100);
+
 }
 
 
+void readFile()
+{
+	freopen("bunny_origin.txt", "r", stdin);
 
+	int pCnt, iCnt;
+	cin >> pCnt >> iCnt;
+
+	for (int i = 0; i < pCnt; i++)
+		cin >> positions[i][0] >> positions[i][1] >> positions[i][2];
+	//이점을 가지고서 저 인덱스로 삼각형을 그리라는거네
+	for (int i = 0; i < iCnt; i++)
+	{
+		cin >> indices[i][0] >> indices[i][1] >> indices[i][2];
+		indices[i][0]--;
+		indices[i][1]--;
+		indices[i][2]--;
+	}
+	//저인덱스를 가지고 삼각형을 그리면 된다는말이다.
+}
 
 void main(int argc, char * argv[])
 {
@@ -81,16 +160,13 @@ void main(int argc, char * argv[])
 	glutInitWindowSize(600, 600);
 	glutCreateWindow("Simple");
 
+	readFile();
+
 	glutDisplayFunc(RenderScene);//렌더링되는 부분
 	glutReshapeFunc(ChangeSize);//SIZE가 바뀔마다 호출이 된다.
 								//	glutSpecialFunc(specialKeyboard);//스페셜 키보드 이벤트를 콜백
 								//	glutKeyboardFunc(keyboard);//키보드 이벤트 콜백
 
-	//453, 948 //453개의 점과 948개의의 삼각형으로 나뉘어 져있다.....
-	//저 점과 그점의 차이는 무엇인가???
-	//
-	
-	//입력완료
 
 
 

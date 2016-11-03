@@ -1,5 +1,5 @@
-﻿1>------ Build started: Project: Day05, Configuration: Debug Win32 ------
-1>  d5_hw1.cpp
-1>  Day05.vcxproj -> C:\Users\treda\documents\visual studio 2015\Projects\GLSample\Debug\Day05.exe
-1>  Day05.vcxproj -> C:\Users\treda\documents\visual studio 2015\Projects\GLSample\Debug\Day05.pdb (Full PDB)
+﻿1>------ Build started: Project: Graphics, Configuration: Debug Win32 ------
+1>  bunny_ex1.cpp
+1>  Graphics.vcxproj -> C:\Users\treda\documents\visual studio 2015\Projects\GLSample\Debug\Graphics.exe
+1>  Graphics.vcxproj -> C:\Users\treda\documents\visual studio 2015\Projects\GLSample\Debug\Graphics.pdb (Full PDB)
 ========== Build: 1 succeeded, 0 failed, 0 up-to-date, 0 skipped ==========

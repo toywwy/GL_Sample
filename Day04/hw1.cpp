@@ -1,5 +1,5 @@
 #include<iostream>
-#include<WIndows.h>
+#include<Windows.h>
 //#include<gl/gL.h>
 //#include<gl/gLU.h> //그래서 앞에를 대문자로 써도 소문자로 써도 상관이 없던건가???
 #include<gl/glut.h>//잉 이것만 있으면 되는건가?

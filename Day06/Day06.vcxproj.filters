@@ -13,10 +13,16 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Source Files\hw">
+      <UniqueIdentifier>{cca0a775-a47e-45f5-9bad-c09d778038d1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="d6_ex1.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="d6_hw1.cpp">
+      <Filter>Source Files\hw</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

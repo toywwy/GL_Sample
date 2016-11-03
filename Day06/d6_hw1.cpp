@@ -1,5 +1,5 @@
 #include<iostream>
-#include<WIndows.h> //이건 GUI 때문에 필요한건데.
+#include<Windows.h> //이건 GUI 때문에 필요한건데.
 #include<gl/GL.h>
 #include<gl/GLU.h>
 #include<gl/glut.h> //이건 유틸리티 툴킷인데, 사용자의 입력이나 화면 윈도우를 제어하기 위해서다.
@@ -16,6 +16,9 @@ using namespace std;
 typedef GLfloat point3[3];
 
 static float theta[3];
+
+int flag = 1;
+
 
 void DrawTriangle(point3 &a, point3 &b, point3 &c);
 void Normalize(point3 &p);
@@ -41,7 +44,8 @@ void CrossProduct(point3 &a, point3 &b, point3 &c, point3 &r)
 	r[0] = (b[1] - a[1]) * (c[2] - a[2]) - (b[2] - a[2]) * (c[1] - a[1]);
 	r[1] = (b[2] - a[2]) * (c[0] - a[0]) - (b[0] - a[0]) * (c[2] - a[2]);
 	r[2] = (b[0] - a[0]) * (c[1] - a[1]) - (b[1] - a[1]) * (c[0] - a[0]);
-	Normalize(r);
+
+	Normalize(r);//유닛 벡터로 만드는건가 법선 벡터를
 }
 
 void DivideTriangle(point3 &a, point3 &b, point3 &c, int n)
@@ -66,30 +70,16 @@ void DivideTriangle(point3 &a, point3 &b, point3 &c, int n)
 		DivideTriangle(v1, v2, v3, n - 1);
 	}
 	else
-		DrawTriangle(a,b,c);
+		DrawTriangle(a, b, c);
 }
 
-void DrawTriangle(point3 &a, point3 &b, point3&c)
+
+
+void drawSmooth(point3 &a, point3 &b, point3&c)
 {
-
-	glEnable(GL_LIGHTING);//꼭 LIGHT 켜줘야한다.
-	
-	//Flat Shading
-	/*
-	point3 n;//단위벡터??? 이게 뭐지 그냥 넣으면 되는건가??
-	CrossProduct(a, b, c, n);
-	glBegin(GL_TRIANGLES);
-	{
-		glNormal3fv(n);
-		glVertex3fv(a);
-		glVertex3fv(b);
-		glVertex3fv(c);
-	}
-	glEnd();
-*/
-
 	//Smooth Shading
-	
+	glEnable(GL_LIGHTING);//꼭 LIGHT 켜줘야한다.
+
 	glBegin(GL_TRIANGLES);
 	{
 		glNormal3fv(a); // 노말라이즈를 이용해서 Shading을 하는것이다.
@@ -103,6 +93,51 @@ void DrawTriangle(point3 &a, point3 &b, point3&c)
 	}
 	glEnd();
 }
+void drawFlat(point3 &a, point3 &b, point3&c)
+{
+
+	//Flat Shading
+	glEnable(GL_LIGHTING);//꼭 LIGHT 켜줘야한다.
+
+	point3 n;//단위벡터??? 이게 뭐지 그냥 넣으면 되는건가??
+	CrossProduct(a, b, c, n);
+
+	glBegin(GL_TRIANGLES);
+	{
+		glNormal3fv(n);
+		glVertex3fv(a);
+		glVertex3fv(b);
+		glVertex3fv(c);
+	}
+	glEnd();
+
+}
+void drawWireframe(point3 &a, point3 &b, point3&c)
+{
+	//WireFrame
+	glDisable(GL_LIGHTING);
+	glDisable(GL_LIGHT0);
+
+	glBegin(GL_LINE_LOOP);
+	{
+		//glNormal3fv(a); //노말라이즈를 이용해서 Shading을 하는것이다.
+		glVertex3fv(a);
+
+		//glNormal3fv(b);
+		glVertex3fv(b);
+
+		//glNormal3fv(c);
+		glVertex3fv(c);
+	}
+	glEnd();
+}
+
+void DrawTriangle(point3 &a, point3 &b, point3&c)
+{
+	if (flag == 1) drawWireframe(a, b, c);
+	else if (flag == 2) drawFlat(a, b, c);
+	else drawSmooth(a, b, c);
+}
 
 void timer(int value)
 {
@@ -113,31 +148,24 @@ void timer(int value)
 
 void RenderScene(void)
 {
-	//Clear the window with current clearing color
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); //버퍼의 조합을 지운다.
-														/*  DEPTH_BUFFER를 두어서 픽셀별로 깊이 값을 저장하도록 하였다. 이를 이용해서 어떤 물체를 그리고자 할때 그앞에 물체가 있으면 있을때 깊이를
-														비교하여 DEPTH가 작은 삼각형쪽은 그려지고, DEPTH가 큰 사각형쪽은 그리지 않게 할 수 있게되는 것이다.
-														(동일한 좌표의 픽셀이 있을때 깊이에 따라 그려야 할지 말아야 할지 선택하게 되는 것이다.) */
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	glMatrixMode(GL_MODELVIEW);//MODELVEIW는 그리는거고 projection은 투영하는거다.
 	glLoadIdentity();
 
-	gluLookAt(0, 0, 2.0, 0, 0, 0, 0, 1.0, 0); //보는 시점이다.
-											  //처음이 눈, at은 어느부분을 볼것인가 이기때문에 거의 안건들여..
-											  //up은 축을 말하는거다...어느축으로 볼것인가.
-
-	//----------------------
+	gluLookAt(0, 0, 2.0, 0, 0, 0, 0, 1.0, 0);
 
 	glEnable(GL_LIGHT0);
+	glColor3f(0, 0, 0);
 	glRotatef(theta[2], 0, 0, 1);
 	glRotatef(theta[1], 0, 1, 0);
 	glRotatef(theta[0], 1, 0, 0);
 
 	point3 v[4] = {
-		{0,0,1},
-		{ 0,			0.942809,-0.333333 },
-		{-0.816497,		-0.471405,-0.333333},
-		{0.816497,		-0.471405,-0.333333}
+		{ 0,			0,			1 },
+		{ 0,			0.942809,	-0.333333 },
+		{ -0.816497,	-0.471405,	-0.333333 },
+		{ 0.816497,		-0.471405,	-0.333333 }
 	};
 
 	int n = 3;
@@ -183,6 +211,23 @@ void ChangeSize(int w, int h)
 }
 
 
+void menu(int item)
+{
+	flag = item;
+	glutPostRedisplay();
+}
+
+void menuInit()
+{
+	glutCreateMenu(menu); //메뉴마다 옵션을 넣어줘야한다. 그리고 키보드에 매핑도 가능한것이지..
+	glutAddMenuEntry("WireFrame", 1);
+	glutAddMenuEntry("Flat", 2);
+	glutAddMenuEntry("Smooth", 3);
+	//오른쪽 버튼 누르면 메뉴가 뜬다.
+	glutAttachMenu(GLUT_RIGHT_BUTTON);
+}
+
+
 void main(int argc, char * argv[])
 {
 	glutInit(&argc, argv);
@@ -193,7 +238,7 @@ void main(int argc, char * argv[])
 	glutReshapeFunc(ChangeSize);//SIZE가 바뀔마다 호출이 된다.
 								//	glutSpecialFunc(specialKeyboard);//스페셜 키보드 이벤트를 콜백
 								//	glutKeyboardFunc(keyboard);//키보드 이벤트 콜백
-
+	menuInit();
 	init();
 	SetupRC();
 	glutMainLoop();
