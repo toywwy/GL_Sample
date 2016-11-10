@@ -14,20 +14,14 @@
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
     <Filter Include="Source Files\hw">
-      <UniqueIdentifier>{db3a32b9-ce0f-4f25-a95f-a7c20885eb4b}</UniqueIdentifier>
+      <UniqueIdentifier>{23e31efc-d833-412b-aecf-3a915b62e500}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="d7_ex1.cpp">
+    <ClCompile Include="d8_ex1.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="d7_ex2.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="d7_ex3.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="d7_hw1.cpp">
+    <ClCompile Include="d8_hw1.cpp">
       <Filter>Source Files\hw</Filter>
     </ClCompile>
   </ItemGroup>

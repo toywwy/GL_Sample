@@ -27,5 +27,8 @@
     <ClCompile Include="bunny_ex3.cpp">
       <Filter>Source Files\hw1</Filter>
     </ClCompile>
+    <ClCompile Include="bunny_ex4.cpp">
+      <Filter>Source Files\hw1</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

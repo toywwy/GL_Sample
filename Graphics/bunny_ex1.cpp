@@ -44,6 +44,21 @@ void drawPoints()
 	}
 }
 
+void drawLines()
+{
+	glBegin(GL_TRIANGLES);
+	{
+		for (int i = 0; i < 948; i++)// 점은 잘그려져 하지만..
+		{
+			glVertex3fv(positions[indices[i][0]]);
+			glVertex3fv(positions[indices[i][1]]);
+			glVertex3fv(positions[indices[i][2]]);
+		}
+	}
+	glEnd();
+
+}
+
 void Normalize(float *p)
 {
 	double d = p[0] * p[0] + p[1] * p[1] + p[2] * p[2];
@@ -78,17 +93,14 @@ void RenderScene(void)
 	glMatrixMode(GL_MODELVIEW);//MODELVEIW는 그리는거고 projection은 투영하는거다.
 	glLoadIdentity();
 
-	gluLookAt(0, 0.2, 0.2, 0, 0, 0, 0, 1, 0); //보는 시점이다.
+	gluLookAt(0.2, 0.2, 0.2, 0, 0, 0, 0, 1, 0); //보는 시점이다.
 											  //처음이 눈, at은 어느부분을 볼것인가 이기때문에 거의 안건들여..
 											  //up은 축을 말하는거다...어느축으로 볼것인가.
 
-											  //glEnable(GL_LIGHTING);
-											  //glEnable(GL_LIGHT0);
-											  //glEnable(GL_COLOR_MATERIAL);
-
 	glColor3f(0, 0, 0);
-
-	drawPoints();
+	glPointSize(2);
+	glPolygonMode(GL_FRONT, GL_POINT);
+	drawLines();
 
 	glutSwapBuffers(); //GLUT_DOUBLE 버퍼를 더블로해서 스왑해서사용할 것이다.
 }

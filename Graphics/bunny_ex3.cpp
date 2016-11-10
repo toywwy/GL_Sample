@@ -20,30 +20,11 @@ float positions[453][3];
 int indices[948][3];
 
 
-
 void timer(int value)
 {
 	glutPostRedisplay();//화면 갱신이 필요할 때 이함수를 부르면 display 콜백 함수를 다시 한 번 실행
 	glutTimerFunc(1000 / 30, timer, 1);//다이머 시간 마다 갱신,  해준다 //30 frame 나온다.
 									   //타이머가 작동하는데 다시 타이머를 동작시킴으로써 계쏙 작동하게 되는거지.
-}
-
-void drawPoints()
-{
-	glColor3f(0, 0, 0);
-	//glutSolidTeapot(5);
-	glPointSize(2);
-
-	for (int i = 0; i < 948; i++)
-	{
-		glBegin(GL_POINTS);
-		{
-			glVertex3fv(positions[indices[i][0]]); //Normalize는 각각 점에 대해서 설정이 되는건가??
-			glVertex3fv(positions[indices[i][1]]); //Normalize는 각각 점에 대해서 설정이 되는건가??
-			glVertex3fv(positions[indices[i][2]]); //Normalize는 각각 점에 대해서 설정이 되는건가??
-		}
-		glEnd();
-	}
 }
 
 void drawLines()
@@ -72,15 +53,15 @@ void RenderScene(void)
 	glLoadIdentity();
 
 	gluLookAt(0.2, 0.2, 0.2, 0, 0, 0, 0, 1, 0); //보는 시점이다.
-											  //처음이 눈, at은 어느부분을 볼것인가 이기때문에 거의 안건들여..
-											  //up은 축을 말하는거다...어느축으로 볼것인가.
+												//처음이 눈, at은 어느부분을 볼것인가 이기때문에 거의 안건들여..
+												//up은 축을 말하는거다...어느축으로 볼것인가.
 
-	//회색으로 면 그림
+												//회색으로 면 그림
 	glEnable(GL_POLYGON_OFFSET_FILL);// offset 쓰려면 enable 해줘야함
 	glPolygonOffset(10, 0);//factor, units 이다.
-	//factor > create a variable depth offset for each polygon. 뎁스 오프셋을 줄수 있는거다 각 폴리곤에
-	//factor > Specifies a scale factor that is used to create a variable depth offset for each polygon. The initial value is zero.
-	//units > Specifies a value that is multiplied by an implementation-specific value to create a constant depth offset. The initial value is 0.
+						   //factor > create a variable depth offset for each polygon. 뎁스 오프셋을 줄수 있는거다 각 폴리곤에
+						   //factor > Specifies a scale factor that is used to create a variable depth offset for each polygon. The initial value is zero.
+						   //units > Specifies a value that is multiplied by an implementation-specific value to create a constant depth offset. The initial value is 0.
 
 	glPolygonMode(GL_FRONT, GL_FILL);
 	glColor3f(0.5, 0.5, 0.5);
@@ -88,10 +69,10 @@ void RenderScene(void)
 	glDisable(GL_POLYGON_OFFSET_FILL);
 
 
-	//검정 색으로 선 그리는 부분
-	glColor3f(0, 0, 0);
-	glPolygonMode(GL_FRONT, GL_LINE);
-	drawLines();//draw
+	////검정 색으로 선 그리는 부분
+	//glColor3f(0, 0, 0);
+	//glPolygonMode(GL_FRONT, GL_LINE);
+	//drawLines();//draw
 
 
 

@@ -32,7 +32,7 @@ void drawLines()
 {
 	glBegin(GL_TRIANGLES);
 	{
-		for (int i = 0; i < 948; i++)// 점은 잘그려져 하지만..
+		for (int i = 0; i < 948; i++)
 		{
 			glVertex3fv(positions[indices[i][0]]);
 			glVertex3fv(positions[indices[i][1]]);
@@ -40,7 +40,6 @@ void drawLines()
 		}
 	}
 	glEnd();
-
 }
 
 void RenderScene(void)
@@ -56,9 +55,23 @@ void RenderScene(void)
 
 	gluLookAt(0.2, 0.2, 0.2, 0, 0, 0, 0, 1, 0); //보는 시점이다.
 
-	glPolygonMode(GL_FRONT, GL_LINE);
+	glEnable(GL_POLYGON_OFFSET_FILL);// offset 쓰려면 enable 해줘야함
+	glPolygonOffset(10, 0);//factor, units 이다.
+						   //factor > create a variable depth offset for each polygon. 뎁스 오프셋을 줄수 있는거다 각 폴리곤에
+						   //factor > Specifies a scale factor that is used to create a variable depth offset for each polygon. The initial value is zero.
+						   //units > Specifies a value that is multiplied by an implementation-specific value to create a constant depth offset. The initial value is 0.
+
+	glPolygonMode(GL_FRONT, GL_FILL);
+	glColor3f(0.5, 0.5, 0.5);
+	drawLines(); //draw
+	glDisable(GL_POLYGON_OFFSET_FILL);
+
+	//검정 색으로 선 그리는 부분
 	glColor3f(0, 0, 0);
-	drawLines();
+	glPolygonMode(GL_FRONT, GL_LINE);
+	drawLines();//draw
+
+
 
 	glutSwapBuffers(); //GLUT_DOUBLE 버퍼를 더블로해서 스왑해서사용할 것이다.
 }
@@ -66,12 +79,10 @@ void RenderScene(void)
 void SetupRC(void) {
 	glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 	glEnable(GL_DEPTH_TEST);
-	
+
 	//BACK을 CULL 하겠다 안그릴거야.
 	glEnable(GL_CULL_FACE);
 	glCullFace(GL_BACK);
-	//근데 폴리곤모드에서 GL_FRONT만 해놨으면 GL_FRONT만 그린다는거 아닌가??
-	//왜굳이 이걸 추가로 해줘야 하는 건지 모르겠네??
 }
 
 void init(void)
@@ -88,6 +99,7 @@ void ChangeSize(int w, int h)
 
 	glMatrixMode(GL_PROJECTION); //이부분이 PROJECTION인 이유는 3D를 2D로 투영시켜야한다.
 								 //glOrtho를 통해서
+
 	glLoadIdentity();//좌표계 초기화
 					 //근데 이게 보면 아는데 ,이러고 나서 좌표계를 초기화해줘야 하고 이런게 기억안날텐데...
 					 //사실근데 안써도 상관없는거구나 ....좌표계를 조작하지 않은이상????
@@ -101,6 +113,7 @@ void ChangeSize(int w, int h)
 			-1.1, 1.0, -1.0, 1.0);
 
 	//	glFrustum(-5,5, -5, 5, 5, 100);
+
 }
 
 
@@ -113,7 +126,6 @@ void readFile()
 
 	for (int i = 0; i < pCnt; i++)
 		cin >> positions[i][0] >> positions[i][1] >> positions[i][2];
-
 	for (int i = 0; i < iCnt; i++)
 	{
 		cin >> indices[i][0] >> indices[i][1] >> indices[i][2];
@@ -134,7 +146,6 @@ void main(int argc, char * argv[])
 	glutReshapeFunc(ChangeSize);//SIZE가 바뀔마다 호출이 된다.
 								//	glutSpecialFunc(specialKeyboard);//스페셜 키보드 이벤트를 콜백
 								//	glutKeyboardFunc(keyboard);//키보드 이벤트 콜백
-
 	init();
 	SetupRC();
 	glutMainLoop();
