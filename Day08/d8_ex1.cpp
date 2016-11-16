@@ -90,6 +90,7 @@ void KillFont(GLvoid)
 	glDeleteLists(base, 96);
 }
 
+//가변 파라미터를 이용해서 인풋을 받는다.
 void glPrint(const char*fmt, ...)
 {
 	char text[256];
@@ -102,11 +103,13 @@ void glPrint(const char*fmt, ...)
 	va_end(ap);
 
 	glPushAttrib(GL_LIST_BIT);
-		glListBase(base - 32);
-		glCallLists(strlen(text), GL_UNSIGNED_BYTE, text);
+		glListBase(base - 32);//시작이 32부터 시작해서 인덱스 맞춰 줄려고 한것같애
+		glCallLists(strlen(text), GL_UNSIGNED_BYTE, text);//이게 그 번호를 가져와서 그려주는것이다.
 	glPopAttrib();
 }
 
+//각각의 문자들을 디스플레이 목록에 저장을한다. !!!미리 저장해놓고 그거 나중에 갖아 쓰기 때문에 빠르게 가능할듯
+//뭐 96개정도야 무리되는것도 아니고
 void BuildFont(void)
 {
 	HFONT font;
@@ -127,7 +130,7 @@ void BuildFont(void)
 		"Courier New");
 	oldfont = (HFONT)SelectObject(hDC, font);
 
-	wglUseFontBitmaps(hDC, 32, 96, base);
+	wglUseFontBitmaps(hDC, 32, 96, base); //이걸 이용해서 디스플레이 목록에 저장을 하는 것이다.
 	SelectObject(hDC, oldfont);
 	DeleteObject(font);
 }

@@ -16,6 +16,9 @@
     <Filter Include="Source Files\hw1">
       <UniqueIdentifier>{4c319728-9a9b-4f52-b95a-fccbc97f5398}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\hw2">
+      <UniqueIdentifier>{eb1b9175-2da2-419e-9c2a-b0c2a53616e2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="bunny_ex2.cpp">
@@ -29,6 +32,15 @@
     </ClCompile>
     <ClCompile Include="bunny_ex4.cpp">
       <Filter>Source Files\hw1</Filter>
+    </ClCompile>
+    <ClCompile Include="hw2.cpp">
+      <Filter>Source Files\hw2</Filter>
+    </ClCompile>
+    <ClCompile Include="test2.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="hw_2010720111.cpp">
+      <Filter>Source Files\hw2</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

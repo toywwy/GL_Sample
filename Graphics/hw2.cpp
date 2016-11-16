@@ -3,7 +3,8 @@
 #include<gl/GL.h>
 #include<gl/GLU.h>
 #include<gl/glut.h> //이건 유틸리티 툴킷인데, 사용자의 입력이나 화면 윈도우를 제어하기 위해서다.
-#include <math.h> //삼각함수 쓰려고
+#include<math.h> //삼각함수 쓰려고
+#include<vector> 
 
 #define _CRT_SECURE_NO_WARNINGS
 #pragma warning(disable:4996)
@@ -15,10 +16,17 @@
 
 using namespace std;
 
+typedef float point3[3];
 
-int pCnt, iCnt;
-float * positions;// [453][3];
-int *indices;// [948][3];
+typedef pair<point3, point3> P;
+vector<P> v;
+
+vector<vector<float *>> vNormal;
+
+
+int pCnt, iCnt; // position, indices 
+float **positions;// [453][3];
+int **indices;//[948][3];
 
 
 
@@ -29,14 +37,59 @@ void timer(int value)
 									   //타이머가 작동하는데 다시 타이머를 동작시킴으로써 계쏙 작동하게 되는거지.
 }
 
+void Normalize(point3 p)
+{
+	double d = p[0] * p[0] + p[1] * p[1] + p[2] * p[2];
+
+	if (d > 0)
+	{
+		float len = (float)(1.0 / sqrt(d));
+		p[0] *= len;
+		p[1] *= len;
+		p[2] *= len;
+	}
+}
+
+//이걸 가지고 그릴수있을 것 같애
+void CrossProduct(float* a, float* b, float* c, float* &r)
+{
+	r[0] = (b[1] - a[1]) * (c[2] - a[2]) - (b[2] - a[2]) * (c[1] - a[1]);
+	r[1] = (b[2] - a[2]) * (c[0] - a[0]) - (b[0] - a[0]) * (c[2] - a[2]);
+	r[2] = (b[0] - a[0]) * (c[1] - a[1]) - (b[1] - a[1]) * (c[0] - a[0]);
+	Normalize(r);
+}
+
 void drawLines()
 {
 	glBegin(GL_TRIANGLES);
 	{
-		for (int i = 0; i < 948; i++)
+		for (int i = 0; i < iCnt; i++)
 		{
+			float * n = new float[3];
+
+			CrossProduct(positions[indices[i][0]], positions[indices[i][1]], positions[indices[i][2]], n);
+			for (int j = 0; j < 3; j++)
+			{
+				glVertex3fv(positions[indices[i][j]]);
+				vNormal[indices[i][j]].push_back(n);
+			}
+		}
+	}
+	glEnd();
+}
+void drawFill()
+{
+	glBegin(GL_TRIANGLES);
+	{
+		for (int i = 0; i < iCnt; i++)
+		{
+			glNormal3fv(positions[indices[i][0]]);//이 노말 값 이용못하나?
 			glVertex3fv(positions[indices[i][0]]);
+
+			glNormal3fv(positions[indices[i][1]]);
 			glVertex3fv(positions[indices[i][1]]);
+
+			glNormal3fv(positions[indices[i][2]]);
 			glVertex3fv(positions[indices[i][2]]);
 		}
 	}
@@ -54,7 +107,16 @@ void RenderScene(void)
 	glMatrixMode(GL_MODELVIEW);//MODELVEIW는 그리는거고 projection은 투영하는거다.
 	glLoadIdentity();
 
+	glEnable(GL_LIGHT0);
+	glEnable(GL_LIGHT1);
+
+	//GLfloat position0[4] = { -1,-1,-1,1 };
+	//glLightfv(GL_LIGHT0, GL_POSITION, position0);
 	gluLookAt(0.2, 0.2, 0.2, 0, 0, 0, 0, 1, 0); //보는 시점이다.
+
+	GLfloat position1[4] = { -1,-1,-1,1 };
+	glLightfv(GL_LIGHT1, GL_POSITION, position1);
+
 
 	glEnable(GL_POLYGON_OFFSET_FILL);// offset 쓰려면 enable 해줘야함
 	glPolygonOffset(10, 0);//factor, units 이다.
@@ -64,14 +126,13 @@ void RenderScene(void)
 
 	glPolygonMode(GL_FRONT, GL_FILL);
 	glColor3f(0.5, 0.5, 0.5);
-	drawLines(); //draw
+	drawFill(); //draw
 	glDisable(GL_POLYGON_OFFSET_FILL);
 
 	//검정 색으로 선 그리는 부분
 	glColor3f(0, 0, 0);
 	glPolygonMode(GL_FRONT, GL_LINE);
 	drawLines();//draw
-
 
 
 	glutSwapBuffers(); //GLUT_DOUBLE 버퍼를 더블로해서 스왑해서사용할 것이다.
@@ -83,6 +144,10 @@ void SetupRC(void) {
 
 	//BACK을 CULL 하겠다 안그릴거야.
 	glEnable(GL_CULL_FACE);
+	glEnable(GL_LIGHTING);
+	glEnable(GL_NORMALIZE);
+
+
 	glCullFace(GL_BACK);
 }
 
@@ -122,20 +187,46 @@ void readFile()
 {
 	freopen("bunny_origin.txt", "r", stdin);
 
-	
-
-
 	cin >> pCnt >> iCnt;
 
-	positions= new float[pCnt];// [453][3];
-	indices;// [948][3];
+	positions = new float*[pCnt]; ///453
+	indices = new int *[iCnt]; ///948
 
-	for (int i = 0; i < pCnt; i++)
-		cin >> positions[i][0] >> positions[i][1] >> positions[i][2];
+	vNormal.resize(pCnt);//점 갯수만큼 생성해준다.
+
+	for (int i = 0; i < pCnt; i++) positions[i] = new float[3];
+	for (int i = 0; i < iCnt; i++) indices[i] = new int[3];
+	for (int i = 0; i < pCnt; i++) cin >> positions[i][0] >> positions[i][1] >> positions[i][2];
+
 	for (int i = 0; i < iCnt; i++)
 	{
 		cin >> indices[i][0] >> indices[i][1] >> indices[i][2];
 		indices[i][0]--; indices[i][1]--; indices[i][2]--;
+	}
+}
+
+void keyboard(unsigned char c, int x, int y)
+{
+	switch (c)
+	{
+	case VK_ESCAPE:
+		exit(0);
+		break;
+	//Default 가 wireframe 모드이고??
+
+	case 'f'://Draw face normal vectors. ‘f’ key to toggle. (a)
+
+		break;
+
+	case 'v'://Draw vertex normal vectors.‘v’ key to toggle. (b)
+
+		break;
+
+	case 'w' ://‘w’ key to turn on/off the wireframe mode
+		//wireframe 과 normal vector를 꺼주면 된다.
+		//normal vector는 face와 vertex가 있다.
+		break;
+
 	}
 }
 
@@ -151,7 +242,7 @@ void main(int argc, char * argv[])
 	glutDisplayFunc(RenderScene);//렌더링되는 부분
 	glutReshapeFunc(ChangeSize);//SIZE가 바뀔마다 호출이 된다.
 								//	glutSpecialFunc(specialKeyboard);//스페셜 키보드 이벤트를 콜백
-								//	glutKeyboardFunc(keyboard);//키보드 이벤트 콜백
+	glutKeyboardFunc(keyboard);//키보드 이벤트 콜백
 	init();
 	SetupRC();
 	glutMainLoop();

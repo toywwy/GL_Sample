@@ -75,7 +75,7 @@ void DrawTriangle(point3 &a, point3 &b, point3&c)
 	glEnable(GL_LIGHTING);//꼭 LIGHT 켜줘야한다.
 	
 	//Flat Shading
-	/*
+	//이게 명칭만 플렛 쉐이딩 이였던 거였다.
 	point3 n;//단위벡터??? 이게 뭐지 그냥 넣으면 되는건가??
 	CrossProduct(a, b, c, n);
 	glBegin(GL_TRIANGLES);
@@ -86,22 +86,22 @@ void DrawTriangle(point3 &a, point3 &b, point3&c)
 		glVertex3fv(c);
 	}
 	glEnd();
-*/
 
-	//Smooth Shading
-	
-	glBegin(GL_TRIANGLES);
-	{
-		glNormal3fv(a); // 노말라이즈를 이용해서 Shading을 하는것이다.
-		glVertex3fv(a);
 
-		glNormal3fv(b);
-		glVertex3fv(b);
+	////Smooth Shading
+	//
+	//glBegin(GL_TRIANGLES);
+	//{
+	//	glNormal3fv(a); // 노말라이즈를 이용해서 Shading을 하는것이다.
+	//	glVertex3fv(a);
 
-		glNormal3fv(c);
-		glVertex3fv(c);
-	}
-	glEnd();
+	//	glNormal3fv(b);
+	//	glVertex3fv(b);
+
+	//	glNormal3fv(c);
+	//	glVertex3fv(c);
+	//}
+	//glEnd();
 }
 
 void timer(int value)
