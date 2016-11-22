@@ -12,18 +12,23 @@
 * glut.h (OpenGL Utility Toolkit) - 사용자 입력을 받아들이거나 화면 윈도우를 제어하기 위한 라이브러리
 */
 
+/*
+LNK2019 ERR >> Property -> Configuration Properties -> Linker -> Input -> Additional Dependencies -> add “LEGACY_STDIO_DEFINITIONS.LIB”
++glaux.lib 추가해줘야한다.
+*/
+
 using namespace std;
 
 GLfloat vertices[8][3] = { { -1, -1, 1 },{ -1, 1, 1 },{ 1, 1, 1 },{ 1, -1, 1 },{ -1, -1, -1 },{ -1, 1, -1 },{ 1, 1, -1 },{ 1, -1, -1 } };
 GLfloat colors[8][3] = { { 0, 0, 1 },{ 0, 1, 1 },{ 1, 1, 1 },{ 1, 0, 1 },{ 0, 0, 0 },{ 0, 1, 0 },{ 1, 1, 0 },{ 1, 0, 0 } };
 
 static float m_vertices[8][3], m_colors[8][4], m_normals[6][3];
-GLubyte m_image[64][64][3];
+GLubyte m_image[64][64][3];//64x64 rgb (3) 알지비값을 정하나.
 
 void m_v()
 {
-	m_vertices[0][0] = -1; m_vertices[0][1] = -1; m_vertices[0][2] = 1; m_vertices[1][0] = -1; m_vertices[1][1] = 1; m_vertices[1][2] = 1; m_vertices[2][0] = 1; m_vertices[2][1] = 1; m_vertices[2][2] = 1; m_vertices[3][0] = 1; m_vertices[3][1] = -1; m_vertices[3][2] = 1; m_vertices[4][0] = -1; m_vertices[4][1] = -1; m_vertices[4][2] = -1; m_vertices[5][0] = -1; m_vertices[5][1] = 1; m_vertices[5][2] = -1; m_vertices[6][0] = 1; m_vertices[6][1] = 1; m_vertices[6][2] = -1; m_vertices[7][0] = 1; m_vertices[7][1] = -1; m_vertices[7][2] = -1;
-	m_colors[0][0] = 0; m_colors[0][1] = 0; m_colors[0][2] = 1; m_colors[0][3] = 1; m_colors[1][0] = 0; m_colors[1][1] = 1; m_colors[1][2] = 1; m_colors[1][3] = 1; m_colors[2][0] = 1; m_colors[2][1] = 1; m_colors[2][2] = 1; m_colors[2][3] = 1; m_colors[3][0] = 1; m_colors[3][1] = 0; m_colors[3][2] = 1; m_colors[3][3] = 1; m_colors[4][0] = 0; m_colors[4][1] = 0; m_colors[4][2] = 0; m_colors[4][3] = 1; m_colors[5][0] = 0; m_colors[5][1] = 1; m_colors[5][2] = 0; m_colors[5][3] = 1; m_colors[6][0] = 1; m_colors[6][1] = 1; m_colors[6][2] = 0; m_colors[6][3] = 1; m_colors[7][0] = 1; m_colors[7][1] = 0; m_colors[7][2] = 0; m_colors[7][3] = 1;
+	/*m_vertices[0][0] = -1; m_vertices[0][1] = -1; m_vertices[0][2] = 1; m_vertices[1][0] = -1; m_vertices[1][1] = 1; m_vertices[1][2] = 1; m_vertices[2][0] = 1; m_vertices[2][1] = 1; m_vertices[2][2] = 1; m_vertices[3][0] = 1; m_vertices[3][1] = -1; m_vertices[3][2] = 1; m_vertices[4][0] = -1; m_vertices[4][1] = -1; m_vertices[4][2] = -1; m_vertices[5][0] = -1; m_vertices[5][1] = 1; m_vertices[5][2] = -1; m_vertices[6][0] = 1; m_vertices[6][1] = 1; m_vertices[6][2] = -1; m_vertices[7][0] = 1; m_vertices[7][1] = -1; m_vertices[7][2] = -1;
+	m_colors[0][0] = 0; m_colors[0][1] = 0; m_colors[0][2] = 1; m_colors[0][3] = 1; m_colors[1][0] = 0; m_colors[1][1] = 1; m_colors[1][2] = 1; m_colors[1][3] = 1; m_colors[2][0] = 1; m_colors[2][1] = 1; m_colors[2][2] = 1; m_colors[2][3] = 1; m_colors[3][0] = 1; m_colors[3][1] = 0; m_colors[3][2] = 1; m_colors[3][3] = 1; m_colors[4][0] = 0; m_colors[4][1] = 0; m_colors[4][2] = 0; m_colors[4][3] = 1; m_colors[5][0] = 0; m_colors[5][1] = 1; m_colors[5][2] = 0; m_colors[5][3] = 1; m_colors[6][0] = 1; m_colors[6][1] = 1; m_colors[6][2] = 0; m_colors[6][3] = 1; m_colors[7][0] = 1; m_colors[7][1] = 0; m_colors[7][2] = 0; m_colors[7][3] = 1;*/
 	m_normals[0][0] = 0; m_normals[0][1] = 0; m_normals[0][2] = 1;
 	// (0, 3, 2, 1) 
 	m_normals[1][0] = 0; m_normals[1][1] = 1; m_normals[1][2] = 0;
@@ -42,21 +47,26 @@ void drawCube(int a, int b, int c, int d)
 {
 	glBegin(GL_QUADS);
 
-	glNormal3fv(m_normals[a]);
+	glNormal3fv(m_normals[a]);//이건 위에서 왜해주는거지..
 
-	glColor3fv(colors[a]); 
+	//glTexcoord2f 이게 좌표를 말하는건데..
+
+	//glTexImage2D(GL_TEXTURE_2D, 0, 3, 64, 64, 0, GL_RGB, GL_UNSIGNED_BYTE, m_image);
+	//여따가 2D이미지 GL_TEXTURE를 설정해놨어.
+
+	glColor3fv(colors[a]);
 	glTexCoord2f(0.0, 0.0);
 	glVertex3fv(vertices[a]);
 
-	glColor3fv(colors[b]); 
-	glTexCoord2f(1.0, 0.0);
+	glColor3fv(colors[b]);
+	glTexCoord2f(1.0, 0.0);//
 	glVertex3fv(vertices[b]);
 
-	glColor3fv(colors[c]); 
+	glColor3fv(colors[c]);
 	glTexCoord2f(1.0, 1.0);
 	glVertex3fv(vertices[c]);
 
-	glColor3fv(colors[d]); 
+	glColor3fv(colors[d]);
 	glTexCoord2f(0.0, 1.0);
 	glVertex3fv(vertices[d]);
 
@@ -108,7 +118,7 @@ void LoadTexture()
 	{
 		for (register int j = 0; j < 64; j++)
 		{
-			int c = (((i & 0x8) == 0) ^ (j & 0x8) == 0) * 255;
+			int c = ((i & 0x8) == 0 ^ (j & 0x8) == 0) * 255;
 			m_image[i][j][0] = (GLubyte)c;
 			m_image[i][j][1] = (GLubyte)c;
 			m_image[i][j][2] = (GLubyte)c;
@@ -118,11 +128,19 @@ void LoadTexture()
 	glTexImage2D(GL_TEXTURE_2D, 0, 3, 64, 64, 0, GL_RGB, GL_UNSIGNED_BYTE, m_image);
 
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
-	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
+	//glTexParameterf(GL_TEXTURE_2D,	, GL_CLAMP); //지워도 되는듯?
+	//GL_TExTURE_S GL_REPEAT로 바꿔도 작동하네
+	// Initially, GL_TEXTURE_WRAP_S is set to GL_REPEAT.
+	
 
+	//GL_NEAREST is generally faster than GL_LINEAR, 
+	//but it can produce textured images with sharper edges because the transition between texture elements is not as smooth. The initial value of GL_TEXTURE_MAG_FILTER is GL_LINEAR.
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	//GL_NEARESTReturns the value of the texture element that is nearest (in Manhattan distance) to the center of the pixel being textured.
+	//MIN MAG FILTER는 뭐냐.. GL_NEAREST는 뭐고..
 
+	//따지고 보면 거의 기본값으로 설정을 해준거라고 보면됨.
 }
 
 void init(void)
@@ -133,7 +151,6 @@ void init(void)
 
 	glEnable(GL_TEXTURE_2D);
 	LoadTexture();
-
 }
 
 void ChangeSize(int w, int h)
@@ -175,11 +192,8 @@ void main(int argc, char * argv[])
 
 								//453, 948 //453개의 점과 948개의의 삼각형으로 나뉘어 져있다.....
 								//저 점과 그점의 차이는 무엇인가???
-								//
 
 								//입력완료
-
-
 
 	init();
 	SetupRC();

@@ -12,6 +12,11 @@
 * glut.h (OpenGL Utility Toolkit) - 사용자 입력을 받아들이거나 화면 윈도우를 제어하기 위한 라이브러리
 */
 
+/*
+LNK2019 ERR >> Property -> Configuration Properties -> Linker -> Input -> Additional Dependencies -> add “LEGACY_STDIO_DEFINITIONS.LIB”
++glaux.lib 추가해줘야한다.
+*/
+
 using namespace std;
 
 GLfloat vertices[8][3] = { { -1, -1, 1 },{ -1, 1, 1 },{ 1, 1, 1 },{ 1, -1, 1 },{ -1, -1, -1 },{ -1, 1, -1 },{ 1, 1, -1 },{ 1, -1, -1 } };
