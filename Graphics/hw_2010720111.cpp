@@ -128,7 +128,7 @@ void drawNormalVectors()
 {
 	for (P p : v)
 	{
-		glBegin(GL_LINES);//이게빡으로 낙도 되는게 신기하다.
+		glBegin(GL_LINES);
 		{
 			glVertex3f(p.first[0], p.first[1], p.first[2]);//노말 벡터와 쌍인 애들이다.
 			glVertex3f(p.second[0], p.second[1], p.second[2]);//얘와 합쳐 졌을때 의미를 
