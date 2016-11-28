@@ -19,6 +19,12 @@
     <Filter Include="Source Files\hw2">
       <UniqueIdentifier>{eb1b9175-2da2-419e-9c2a-b0c2a53616e2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\hw3">
+      <UniqueIdentifier>{4e095bbb-33a6-4d8b-b7cf-020dd4c05b93}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\hw4">
+      <UniqueIdentifier>{63144ad5-5baa-4dd6-9071-11a842243fa2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="bunny_ex2.cpp">
@@ -41,6 +47,12 @@
     </ClCompile>
     <ClCompile Include="hw_2010720111.cpp">
       <Filter>Source Files\hw2</Filter>
+    </ClCompile>
+    <ClCompile Include="hw3_ex1.cpp">
+      <Filter>Source Files\hw3</Filter>
+    </ClCompile>
+    <ClCompile Include="hw4_ex1.cpp">
+      <Filter>Source Files\hw4</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

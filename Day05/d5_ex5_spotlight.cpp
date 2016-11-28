@@ -113,7 +113,7 @@ void RenderScene(void)
 	GLfloat spot_direction[3] = { -1,-1 ,-1 };
 	glLightfv(GL_LIGHT0, GL_SPOT_DIRECTION, spot_direction);
 	glLightf(GL_LIGHT0, GL_SPOT_CUTOFF, 15.0);
-	glLightf(GL_LIGHT0, GL_SPOT_EXPONENT, 100.0);//이렇게 두면..
+	glLightf(GL_LIGHT0, GL_SPOT_EXPONENT, 40);//이렇게 두면..
 
 
 	glEnable(GL_LIGHT1);
