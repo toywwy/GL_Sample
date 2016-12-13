@@ -122,14 +122,17 @@ void SetupRC(void) {
 	
 	//glEnable(GL_NORMALIZE);
 
-	glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);
-	glEnable(GL_COLOR_MATERIAL);
+	glEnable(GL_COLOR_MATERIAL);//앵 얘는 없으면안되네??
+	//빛과 머티리얼은 관련이 있다는건가???
 
-	GLfloat mat_specular[4] = { 1,1,1,1 };
-	GLfloat mat_shininess = 100;
+	/*
+	마지막 라인인 GL_COLOR_MATRIAL은 텍스쳐 맵핑에 색을 추가하도록 해 준다. 
+	이 재질의 컬러링을 가능하지 않게 한다면, 텍스쳐는 항상 원래의 색상으로 나타난다. 
+	즉 glColor3f(r,g,b)가 아무런 효과를 내지 못한다. 
+	그래서 이것을 가능하게 해주는 것이 중요하다.
+	
+	*/
 
-	glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
-	glMaterialf(GL_FRONT, GL_SHININESS, mat_shininess);
 
 
 }

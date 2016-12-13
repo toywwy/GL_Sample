@@ -237,12 +237,22 @@ void RenderScene(void)
 void SetupRC(void) {
 	glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 	glEnable(GL_DEPTH_TEST);
-	glEnable(GL_COLOR_MATERIAL);
 	glEnable(GL_TEXTURE_2D);
 
 	//노말이제대로 적용이 됐으면 라이팅이 제대로 먹혔을 것이다.
 	glEnable(GL_LIGHTING);
 	glEnable(GL_LIGHT0);
+	glEnable(GL_COLOR_MATERIAL);//얘는 결국에 빛과 상관이 있는다는 말이다. 근데 얘를 안쓰고 빛에 색을 줘도 되는느낌이다. 빛과 반사에 색이있으면 색으로 보일태니.
+
+	//glEnable(GL_NORMALIZE); //자동으로 법선 /len 로 정규화를 해주는 기능, 따로 구현하는게 효율적이다.
+
+	/*
+	마지막 라인인 GL_COLOR_MATRIAL은 텍스쳐 맵핑에 색을 추가하도록 해 준다.
+	이 재질의 컬러링을 가능하지 않게 한다면, 텍스쳐는 항상 원래의 색상으로 나타난다.
+	즉 glColor3f(r,g,b)가 아무런 효과를 내지 못한다.
+	그래서 이것을 가능하게 해주는 것이 중요하다.
+	*/
+
 }
 
 
@@ -392,7 +402,6 @@ void keyboard(unsigned char c, int x, int y)
 		flag = 5;
 		break;
 	}
-
 	glutPostRedisplay();
 }
 
