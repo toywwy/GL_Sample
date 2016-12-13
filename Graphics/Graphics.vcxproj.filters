@@ -42,16 +42,13 @@
     <ClCompile Include="hw2.cpp">
       <Filter>Source Files\hw2</Filter>
     </ClCompile>
-    <ClCompile Include="test2.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="hw_2010720111.cpp">
       <Filter>Source Files\hw2</Filter>
     </ClCompile>
-    <ClCompile Include="hw3_ex1.cpp">
+    <ClCompile Include="hw3_rotate_light_ex1.cpp">
       <Filter>Source Files\hw3</Filter>
     </ClCompile>
-    <ClCompile Include="hw4_ex1.cpp">
+    <ClCompile Include="hw4_torus_mapping_ex1.cpp">
       <Filter>Source Files\hw4</Filter>
     </ClCompile>
   </ItemGroup>

@@ -16,9 +16,8 @@
 using namespace std;
 
 
-int pCnt, iCnt;
-float * positions;// [453][3];
-int *indices;// [948][3];
+float positions[453][3];
+int indices[948][3];
 
 
 
@@ -67,6 +66,7 @@ void RenderScene(void)
 	drawLines(); //draw
 	glDisable(GL_POLYGON_OFFSET_FILL);
 
+
 	//검정 색으로 선 그리는 부분
 	glColor3f(0, 0, 0);
 	glPolygonMode(GL_FRONT, GL_LINE);
@@ -100,7 +100,6 @@ void ChangeSize(int w, int h)
 
 	glMatrixMode(GL_PROJECTION); //이부분이 PROJECTION인 이유는 3D를 2D로 투영시켜야한다.
 								 //glOrtho를 통해서
-
 	glLoadIdentity();//좌표계 초기화
 					 //근데 이게 보면 아는데 ,이러고 나서 좌표계를 초기화해줘야 하고 이런게 기억안날텐데...
 					 //사실근데 안써도 상관없는거구나 ....좌표계를 조작하지 않은이상????
@@ -122,13 +121,8 @@ void readFile()
 {
 	freopen("bunny_origin.txt", "r", stdin);
 
-	
-
-
+	int pCnt, iCnt;
 	cin >> pCnt >> iCnt;
-
-	positions= new float[pCnt];// [453][3];
-	indices;// [948][3];
 
 	for (int i = 0; i < pCnt; i++)
 		cin >> positions[i][0] >> positions[i][1] >> positions[i][2];

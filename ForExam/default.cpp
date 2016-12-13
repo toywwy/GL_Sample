@@ -14,11 +14,58 @@
 using namespace std;
 
 
+struct Point {
+	float p[3];
+	Point() {}
+	Point(float x, float y, float z)
+	{
+		this->p[0] = x; this->p[1] = y; this->p[2] = z;
+	}
+
+	Point operator- (Point a)
+	{
+		Point retP;
+		for (int i = 0; i < 3; i++) retP.p[i] = this->p[i] - a.p[i];
+		return retP;
+	}
+
+};
+
+
 void timer(int value)
 {
 	glutPostRedisplay();//화면 갱신이 필요할 때 이함수를 부르면 display 콜백 함수를 다시 한 번 실행
 	glutTimerFunc(1000 / 30, timer, 1);//다이머 시간 마다 갱신,  해준다 //30 frame 나온다.
 									   //타이머가 작동하는데 다시 타이머를 동작시킴으로써 계쏙 작동하게 되는거지.
+}
+
+Point getNormal(Point np)
+{
+	float x, y, z;
+	float len;
+	len = 0;
+
+	x = np.p[0];
+	y = np.p[1];
+	z = np.p[2];
+
+	len = x*x + y*y + z*z;
+	len = sqrt(len);
+	Point p(x / len, y / len, z / len);
+
+	return p;
+}
+
+//내가한건데 이거 될거야 안될 이유가 없다.
+Point CrossProduct(Point a, Point b)
+{
+	Point p(
+		a.p[1] * b.p[2] - a.p[2] * b.p[1],
+		a.p[2] * b.p[0] - a.p[0] * b.p[2],
+		a.p[0] * b.p[1] - a.p[1] * b.p[0]
+	);
+
+	return getNormal(p);
 }
 
 void RenderScene(void)
@@ -36,12 +83,55 @@ void RenderScene(void)
 											  //처음이 눈, at은 어느부분을 볼것인가 이기때문에 거의 안건들여..
 											  //up은 축을 말하는거다...어느축으로 볼것인가.
 
+
+	Point p1(0, 0, 0);
+	Point p2(1, 0, 0);
+	Point p3(1, 1, 0);
+	Point p4(0,1,0);
+	
+	//외적순서에 의존한다 법선 벡터의 방향이 바뀔 수가 있다.
+	
+	//헐이건안돼.. 하긴 점과점을 빼면 어떻게 생각하면 그냥 점이되어 버리는 거니까..
+	Point ps1 = p1 - p2;
+	Point ps2 = p3 - p2;
+
+	//Point ps1 = p1 - p2;
+	//Point ps2 = p3 - p2;
+
+	//순서에 의존을 한다 ....
+	Point np = CrossProduct(ps1, ps2); //헐 왜 순서가 중요한거지....??
+	glColor3f(0, 1, 0);
+	glBegin(GL_TRIANGLES);//왜사각형 그릴때 이 순서는 중요하지않는거지...
+	{
+		glNormal3fv(np.p);
+		glVertex3fv(p1.p);
+		glVertex3fv(p2.p);
+		glVertex3fv(p3.p);
+	}
+	glEnd();
+
+
 	glutSwapBuffers(); //GLUT_DOUBLE 버퍼를 더블로해서 스왑해서사용할 것이다.
 }
 
 void SetupRC(void) {
 	glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_LIGHTING);
+	glEnable(GL_LIGHT0);
+	
+	//glEnable(GL_NORMALIZE);
+
+	glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);
+	glEnable(GL_COLOR_MATERIAL);
+
+	GLfloat mat_specular[4] = { 1,1,1,1 };
+	GLfloat mat_shininess = 100;
+
+	glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
+	glMaterialf(GL_FRONT, GL_SHININESS, mat_shininess);
+
+
 }
 
 void init(void)

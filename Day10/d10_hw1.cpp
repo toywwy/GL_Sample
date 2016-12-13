@@ -276,6 +276,7 @@ void calcRay(int _x, int _y, Point * _rayOri, Vector *_rayDir)
 
 	Point ori;
 	SetPoint(&ori, dx*zNear, dy*zNear, -zNear);
+	
 	/*
 	p->p[0] = a;
 	p->p[1] = b;
@@ -298,6 +299,14 @@ void calcRay(int _x, int _y, Point * _rayOri, Vector *_rayDir)
 
 	Matrix mat;
 	SetMatrix(&mat, mv[0], mv[4], mv[8], mv[1], mv[5], mv[9], mv[2], mv[6], mv[10]);
+	//mv 는 gl 이기떄문에 아마 열 우선순위로 등록이 되어있을 것이다..
+	//그래서 가져와서 내가 연산할떄는 행우선이 편하니까 0 4 8 을가져와서 다시 0,1,2 에 저장을 해주는거야
+	//0 1 2 3
+	//4 5 6 7
+	//8 9 10 11
+	//12 13 14 15
+	//나중엔 그래서 Transpose를 해서 해야 될거야.
+
 
 	Vector transVec;//translate 이건 왜구해놓지???
 	SetVector(&transVec, mv[12], mv[13], mv[14]);

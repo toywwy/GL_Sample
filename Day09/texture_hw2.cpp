@@ -228,6 +228,8 @@ void LoadTexture()
 
 		glTexImage2D(GL_TEXTURE_2D, 0, 3, texRec[i]->sizeX, texRec[i]->sizeY, 0, GL_RGB, GL_UNSIGNED_BYTE, texRec[i]->data);
 
+
+		//이게그 coordinate s,t 그거구나 .... s,t 의ㅣ 방향을 GL_REPEAT으로하겠다... default는 REPEAT 이라서 굳이 설정 안해도된다.
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 

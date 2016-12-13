@@ -73,6 +73,8 @@ void RenderScene(void)
 	glMatrixMode(GL_MODELVIEW);//MODELVEIW는 그리는거고 projection은 투영하는거다.
 	glLoadIdentity();
 
+
+	//어쨋든 움직여진 viewer에서 at을 바라 봐야하기때문이다.. 그래서 이동을해도...0,0,0을 가리키기때문..
 	gluLookAt(viewer[0], viewer[1], viewer[2], 0, 0, 0, 0, 1, 0); //보는 시점이다.
 											//처음이 눈, at은 어느부분을 볼것인가 이기때문에 거의 안건들여..
 											//up은 축을 말하는거다...어느축으로 볼것인가.

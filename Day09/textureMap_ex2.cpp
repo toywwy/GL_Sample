@@ -128,7 +128,7 @@ void LoadTexture()
 	glTexImage2D(GL_TEXTURE_2D, 0, 3, 64, 64, 0, GL_RGB, GL_UNSIGNED_BYTE, m_image);
 
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
-	//glTexParameterf(GL_TEXTURE_2D,	, GL_CLAMP); //지워도 되는듯?
+	glTexParameterf(GL_TEXTURE_2D,GL_TEXTURE_WRAP_T, GL_CLAMP); //지워도 되는듯?
 	//GL_TExTURE_S GL_REPEAT로 바꿔도 작동하네
 	// Initially, GL_TEXTURE_WRAP_S is set to GL_REPEAT.
 	
